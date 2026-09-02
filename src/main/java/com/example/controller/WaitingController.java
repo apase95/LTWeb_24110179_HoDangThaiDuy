@@ -18,11 +18,10 @@ public class WaitingController extends HttpServlet {
             User u = (User) session.getAttribute("account");
             req.setAttribute("username", u.getUserName());
             
-            // Authorization
             if (u.getRoleid() == 1) {
-                resp.sendRedirect(req.getContextPath() + "/admin/home");
+                resp.sendRedirect(req.getContextPath() + "/admin/categories");
             } else if (u.getRoleid() == 2) {
-                resp.sendRedirect(req.getContextPath() + "/manager/home");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 resp.sendRedirect(req.getContextPath() + "/home");
             }
