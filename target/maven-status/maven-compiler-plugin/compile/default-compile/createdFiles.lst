@@ -1,6 +1,9 @@
-com/example/controller/WaitingController.class
 com/example/model/User.class
+com/example/dao/DBConnection.class
 com/example/controller/LoginController.class
-com/example/service/UserService.class
 com/example/controller/AppController.class
 com/example/controller/RegisterController.class
+com/example/listener/FlywayMigrationListener.class
+com/example/controller/WaitingController.class
+com/example/dao/UserDAO.class
+com/example/service/UserService.class

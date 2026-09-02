@@ -1,30 +1,31 @@
 package com.example.service;
 
+import com.example.dao.UserDAO;
 import com.example.model.User;
 
 public class UserService {
-    
+    private UserDAO userDAO = new UserDAO();
+
     public User login(String username, String password) {
-        if ("thaiduy".equals(username) && "123456".equals(password)) {
-            User mockUser = new User();
-            mockUser.setUserName("thaiduy");
-            mockUser.setPassWord("123456");
-            mockUser.setFullName("Thái Duy (Mock)");
-            mockUser.setRoleid(3);
-            return mockUser;
-        }
-        return null;
+        return userDAO.getUserByUsernamePassword(username, password);
     }
 
     public boolean checkExistUsername(String username) {
-        return "thaiduy".equals(username);
+        return userDAO.checkExistUsername(username);
     }
 
-    // Hàm giả lập Register
     public boolean register(String username, String password, String email, String fullname, String phone) {
         if (checkExistUsername(username)) {
             return false;
         }
-        return true;
+        User user = new User();
+        user.setEmail(email);
+        user.setUserName(username);
+        user.setFullName(fullname);
+        user.setPassWord(password);
+        user.setRoleid(3);
+        user.setPhone(phone);
+        user.setCreatedDate(new java.util.Date());
+        return userDAO.insertUser(user);
     }
 }
