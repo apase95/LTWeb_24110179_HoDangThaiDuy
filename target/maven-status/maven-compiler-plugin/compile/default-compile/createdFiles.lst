@@ -1,8 +1,10 @@
 com/example/service/UserServiceJpaImpl.class
 com/example/controller/LoginController.class
 com/example/util/JPAConfig.class
+com/example/controller/web/ForgotPasswordController.class
 com/example/service/ICategoryService.class
 com/example/util/EmailUtil.class
+com/example/controller/web/ResetPasswordController.class
 com/example/util/Constant.class
 com/example/dao/jpa/CategoryDaoJpa.class
 com/example/controller/RegisterController.class

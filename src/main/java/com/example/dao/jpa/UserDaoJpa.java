@@ -23,6 +23,21 @@ public class UserDaoJpa implements IUserDao {
     }
 
     @Override
+    public UserEntity findByEmail(String email) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<UserEntity> query = em.createQuery(
+                "SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class);
+            query.setParameter("email", email);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public void update(UserEntity user) {
         EntityManager em = JPAConfig.getEntityManager();
         EntityTransaction trans = em.getTransaction();

@@ -17,8 +17,40 @@ public class UserServiceJpaImpl implements IUserServiceJpa {
     }
 
     @Override
+    public UserEntity findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    @Override
     public void update(UserEntity user) {
         userDao.update(user);
+    }
+
+    @Override
+    public boolean verifyOTP(String username, String otp) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            UserEntity user = em.createNamedQuery("UserEntity.findByUsername", UserEntity.class)
+                                .setParameter("username", username)
+                                .getSingleResult();
+            if (user != null && user.getOtp() != null && user.getOtp().equals(otp)) {
+                Date now = new Date();
+                if (user.getOtpExpiry() != null && now.before(user.getOtpExpiry())) {
+                    user.setOtp(null);
+                    user.setOtpExpiry(null);
+                    em.getTransaction().begin();
+                    em.merge(user);
+                    em.getTransaction().commit();
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
     }
 
     @Override

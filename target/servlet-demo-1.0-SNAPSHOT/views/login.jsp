@@ -22,5 +22,6 @@
         <button type="submit">Đăng nhập</button>
     </form>
     <p>Nếu bạn chưa có tài khoản, hãy <a href="${pageContext.request.contextPath}/register">Đăng ký</a></p>
+    <p><a href="${pageContext.request.contextPath}/forgot-password">Quên mật khẩu?</a></p>
 </body>
 </html>

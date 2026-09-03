@@ -5,7 +5,9 @@
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/WaitingController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/admin/CategoryController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/DownloadImageController.java
+/home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/ForgotPasswordController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/ProfileController.java
+/home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/ResetPasswordController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/VerifyOtpController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/dao/DBConnection.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/dao/UserDAO.java
