@@ -13,3 +13,11 @@ CREATE TABLE IF NOT EXISTS User (
 INSERT INTO User (email, username, fullname, password, roleid, phone, createddate) 
 VALUES ('thaiduy@email.com', 'thaiduy', 'Thái Duy', '123456', 3, '0123456789', CURDATE())
 ON DUPLICATE KEY UPDATE email = VALUES(email);
+
+INSERT INTO User (email, username, fullname, password, roleid, phone, createddate) 
+VALUES ('noobyhandsome@gmail.com', 'hodangthaiduy', 'Ho Dang Thai Duy', '123456', 1, '0123456777', CURDATE())
+ON DUPLICATE KEY UPDATE email = VALUES(email);
+
+ALTER TABLE User ADD COLUMN otp VARCHAR(10);
+ALTER TABLE User ADD COLUMN otp_expiry DATETIME;
+ALTER TABLE User ADD COLUMN active BOOLEAN DEFAULT FALSE;

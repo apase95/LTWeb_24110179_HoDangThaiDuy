@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.Date;
 import com.example.model.User;
 
-
 @Entity
 @Table(name = "User")
 @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username")
@@ -37,6 +36,16 @@ public class UserEntity implements Serializable {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "otp")
+    private String otp;
+
+    @Column(name = "otp_expiry")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otpExpiry;
+
+    @Column(name = "active")
+    private boolean active = false;
 
     @Column(name = "createddate")
     @Temporal(TemporalType.DATE)
@@ -86,6 +95,12 @@ public class UserEntity implements Serializable {
     public void setRoleid(int roleid) { this.roleid = roleid; }
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+    public String getOtp() { return otp; }
+    public void setOtp(String otp) { this.otp = otp; }
+    public Date getOtpExpiry() { return otpExpiry; }
+    public void setOtpExpiry(Date otpExpiry) { this.otpExpiry = otpExpiry; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
     public Date getCreatedDate() { return createdDate; }
     public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
 }

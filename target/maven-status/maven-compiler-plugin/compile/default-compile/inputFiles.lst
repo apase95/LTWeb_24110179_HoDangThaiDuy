@@ -6,6 +6,7 @@
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/admin/CategoryController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/DownloadImageController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/ProfileController.java
+/home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/controller/web/VerifyOtpController.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/dao/DBConnection.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/dao/UserDAO.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/dao/jpa/CategoryDaoJpa.java
@@ -24,4 +25,6 @@
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/test/TestJPA.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/test/TestServlet.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/util/Constant.java
+/home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/util/EmailUtil.java
 /home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/util/JPAConfig.java
+/home/hodangthaiduy/Workspace/Projects/servlet-demo/src/main/java/com/example/util/OTPUtil.java

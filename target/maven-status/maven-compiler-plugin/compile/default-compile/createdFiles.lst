@@ -2,6 +2,7 @@ com/example/service/UserServiceJpaImpl.class
 com/example/controller/LoginController.class
 com/example/util/JPAConfig.class
 com/example/service/ICategoryService.class
+com/example/util/EmailUtil.class
 com/example/util/Constant.class
 com/example/dao/jpa/CategoryDaoJpa.class
 com/example/controller/RegisterController.class
@@ -20,8 +21,11 @@ com/example/model/User.class
 com/example/dao/DBConnection.class
 com/example/controller/AppController.class
 com/example/service/IUserServiceJpa.class
+com/example/util/EmailUtil$1.class
 com/example/listener/FlywayMigrationListener.class
 com/example/controller/LogoutController.class
 com/example/controller/WaitingController.class
 com/example/dao/jpa/UserDaoJpa.class
 com/example/controller/web/ProfileController.class
+com/example/util/OTPUtil.class
+com/example/controller/web/VerifyOtpController.class
