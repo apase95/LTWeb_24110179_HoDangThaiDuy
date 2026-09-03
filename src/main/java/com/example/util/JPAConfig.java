@@ -8,7 +8,12 @@ public class JPAConfig {
     private static EntityManagerFactory factory;
 
     static {
-        factory = Persistence.createEntityManagerFactory("jpa-hibernate-mysql");
+        try {
+            factory = Persistence.createEntityManagerFactory("jpa-hibernate-mysql");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
     public static EntityManager getEntityManager() {

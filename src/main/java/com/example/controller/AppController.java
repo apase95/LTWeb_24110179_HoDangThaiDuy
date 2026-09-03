@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"", "/", "/home", "/error"})
+@WebServlet(urlPatterns = {"/error"})
 public class AppController extends HttpServlet {
 
     @Override

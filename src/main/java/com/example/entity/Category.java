@@ -2,6 +2,8 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Category")
@@ -23,6 +25,9 @@ public class Category implements Serializable {
     @Column(name = "Status")
     private int status;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
+
     public Category() {}
 
     public Category(String categoryName, String images, int status) {
@@ -31,39 +36,14 @@ public class Category implements Serializable {
         this.status = status;
     }
 
-    public int getCategoryId() {
-        return categoryId;
-    }
-    
-    public String getImages() {
-        return images;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    public int getStatus() {
-        return status;
-    } 
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    public int getCategoryId() { return categoryId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public String getCategoryName() { return categoryName; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+    public String getImages() { return images; }
+    public void setImages(String images) { this.images = images; }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
+    public List<Product> getProducts() { return products; }
+    public void setProducts(List<Product> products) { this.products = products; }
 }

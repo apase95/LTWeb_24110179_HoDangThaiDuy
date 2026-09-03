@@ -13,8 +13,7 @@ public class FlywayMigrationListener implements ServletContextListener {
         System.out.println("=== FlywayMigrationListener started ===");
         try {
             Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:mysql://localhost:3306/servlet_db?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true",
-                            "root", "123")
+                .dataSource("jdbc:mysql://localhost:3306/servlet_db?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true", "root", "123")
                 .load();
             flyway.migrate();
             System.out.println("Flyway migration completed!");
