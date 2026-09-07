@@ -1,29 +1,30 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Hồ sơ của tôi</title>
-<script>
-function validateProfileForm() {
-    const fullname = document.getElementById('fullname').value;
-    const phone = document.getElementById('phone').value;
+    <script src="${pageContext.request.contextPath}/js/validation.js"></script>
+    <script>
+        function validateProfileForm() {
+            const fullname = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
 
-    if (!validateRequired(fullname)) {
-        showError('fullnameError', 'Họ tên không được để trống');
-        return false;
-    } else {
-        clearError('fullnameError');
-    }
+            if (!validateRequired(fullname)) {
+                showError('fullnameError', 'Họ tên không được để trống');
+                return false;
+            } else {
+                clearError('fullnameError');
+            }
 
-    if (phone && !validatePhone(phone)) {
-        showError('phoneError', 'Số điện thoại không hợp lệ (10-11 số)');
-        return false;
-    } else {
-        clearError('phoneError');
-    }
-    return true;
-}
-</script>
+            if (phone && !validatePhone(phone)) {
+                showError('phoneError', 'Số điện thoại không hợp lệ (10-11 số)');
+                return false;
+            } else {
+                clearError('phoneError');
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <h2>Thông tin cá nhân</h2>

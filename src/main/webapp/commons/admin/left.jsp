@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <ul class="nav flex-column p-3">
     <li class="nav-item">
         <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">

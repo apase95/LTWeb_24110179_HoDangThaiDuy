@@ -18,6 +18,7 @@ public class HomeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("HomeController - before forward, committed=" + resp.isCommitted());
         List<Product> newProducts = productService.findTop10();
         req.setAttribute("newProducts", newProducts);
         req.getRequestDispatcher("/views/index.jsp").forward(req, resp);

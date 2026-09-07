@@ -54,6 +54,18 @@ public class ProfileController extends HttpServlet {
         String fullname = req.getParameter("fullname");
         String phone = req.getParameter("phone");
 
+        // Server-side validation
+        if (fullname == null || fullname.trim().isEmpty()) {
+            req.setAttribute("message", "Họ tên không được để trống");
+            req.getRequestDispatcher("/views/web/profile.jsp").forward(req, resp);
+            return;
+        }
+        if (phone != null && !phone.isEmpty() && !phone.matches("^[0-9]{10,11}$")) {
+            req.setAttribute("message", "Số điện thoại không hợp lệ (10-11 số)");
+            req.getRequestDispatcher("/views/web/profile.jsp").forward(req, resp);
+            return;
+        }
+
         UserEntity userEntity = userService.findByUsername(user.getUserName());
         if (userEntity == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -63,6 +75,7 @@ public class ProfileController extends HttpServlet {
         userEntity.setFullname(fullname);
         userEntity.setPhone(phone);
 
+        // Xử lý upload ảnh
         Part filePart = req.getPart("avatar");
         String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
