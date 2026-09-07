@@ -3,4 +3,7 @@
     <mapping path="/admin/*" decorator="/decorators/admin.jsp"/>
     <mapping path="/login" exclude="true"/>
     <mapping path="/register" exclude="true"/>
+    <mapping path="/verify-otp" exclude="true"/>
+    <mapping path="/forgot-password" exclude="true"/>
+    <mapping path="/reset-password" exclude="true"/>
 </sitemesh>

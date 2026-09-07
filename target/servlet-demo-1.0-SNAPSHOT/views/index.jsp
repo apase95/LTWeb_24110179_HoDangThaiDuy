@@ -1,27 +1,63 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head><title>Trang chủ</title></head>
+<head>
+    <title>Trang chủ</title>
+    <style>
+        .product-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .product-card .card-body {
+            padding: 1rem;
+        }
+        .product-card .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .product-card .card-text {
+            font-size: 0.95rem;
+            color: #dc3545;
+            font-weight: 600;
+        }
+        .product-card {
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
 <body>
-    <h1>Chào mừng đến với trang chủ!</h1>
-    <h3>Sản phẩm mới nhất</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <h1 class="mb-4">Chào mừng đến với trang chủ!</h1>
+    <h3 class="mb-3">Sản phẩm mới nhất</h3>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
         <c:forEach items="${newProducts}" var="p">
-            <div style="border: 1px solid #ccc; padding: 15px; width: 200px;">
-                <c:choose>
-                    <c:when test="${p.images.startsWith('http')}">
-                        <img height="150" width="150" src="${p.images}" />
-                    </c:when>
-                    <c:otherwise>
-                        <img height="150" width="150" src="${pageContext.request.contextPath}/image?fname=${p.images}" />
-                    </c:otherwise>
-                </c:choose>
-                <h4>${p.productName}</h4>
-                <p>Giá: ${p.price} VND</p>
-                <a href="${pageContext.request.contextPath}/product/detail?id=${p.productId}">Xem chi tiết</a>
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <c:choose>
+                        <c:when test="${p.images.startsWith('http')}">
+                            <img src="${p.images}" class="card-img-top" alt="${p.productName}">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="${pageContext.request.contextPath}/image?fname=${p.images}" class="card-img-top" alt="${p.productName}">
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="card-body">
+                        <h5 class="card-title">${p.productName}</h5>
+                        <p class="card-text">${p.price} VND</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <a href="${pageContext.request.contextPath}/product/detail?id=${p.productId}" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    </div>
+                </div>
             </div>
         </c:forEach>
     </div>
-    <a href="${pageContext.request.contextPath}/product">Xem tất cả sản phẩm</a>
+    <div class="mt-4">
+        <a href="${pageContext.request.contextPath}/product" class="btn btn-outline-secondary">Xem tất cả sản phẩm</a>
+    </div>
 </body>
 </html>
