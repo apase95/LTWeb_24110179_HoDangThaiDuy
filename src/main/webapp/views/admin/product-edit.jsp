@@ -1,7 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head><title>Sửa sản phẩm</title></head>
+<head>
+    <title>Sửa sản phẩm</title>
+<script>
+function validateProductForm() {
+    const name = document.getElementById('productName').value;
+    const price = document.getElementById('price').value;
+    const quantity = document.getElementById('quantity').value;
+
+    if (!validateRequired(name)) {
+        alert('Tên sản phẩm không được để trống');
+        return false;
+    }
+    if (isNaN(price) || parseFloat(price) <= 0) {
+        alert('Giá phải là số dương');
+        return false;
+    }
+    if (isNaN(quantity) || parseInt(quantity) < 0) {
+        alert('Số lượng phải là số nguyên không âm');
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
 <body>
 <h2>Sửa sản phẩm</h2>
 <form action="${pageContext.request.contextPath}/admin/product/update" method="post" enctype="multipart/form-data">

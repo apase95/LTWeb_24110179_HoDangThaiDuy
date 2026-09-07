@@ -42,6 +42,13 @@ public class RegisterController extends HttpServlet {
             return;
         }
 
+        if (!phone.isEmpty() && !phone.matches("^[0-9]{10,11}$")) {
+            alertMsg = "Số điện thoại không hợp lệ";
+            req.setAttribute("alert", alertMsg);
+            req.getRequestDispatcher("/views/register.jsp").forward(req, res);
+            return;
+        }
+
         boolean isSuccess = service.register(username, password, email, fullname, phone);
         if (isSuccess) {
             UserServiceJpaImpl jpaService = new UserServiceJpaImpl();

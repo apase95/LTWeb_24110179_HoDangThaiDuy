@@ -3,13 +3,34 @@
 <html>
 <head>
     <title>Hồ sơ của tôi</title>
+<script>
+function validateProfileForm() {
+    const fullname = document.getElementById('fullname').value;
+    const phone = document.getElementById('phone').value;
+
+    if (!validateRequired(fullname)) {
+        showError('fullnameError', 'Họ tên không được để trống');
+        return false;
+    } else {
+        clearError('fullnameError');
+    }
+
+    if (phone && !validatePhone(phone)) {
+        showError('phoneError', 'Số điện thoại không hợp lệ (10-11 số)');
+        return false;
+    } else {
+        clearError('phoneError');
+    }
+    return true;
+}
+</script>
 </head>
 <body>
     <h2>Thông tin cá nhân</h2>
     <c:if test="${not empty message}">
         <p style="color:green;">${message}</p>
     </c:if>
-    <form action="${pageContext.request.contextPath}/profile" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/profile" method="post" enctype="multipart/form-data" onsubmit="return validateProfileForm()">
         <label>Username:</label>
         <input type="text" value="${user.username}" disabled><br><br>
 
@@ -17,10 +38,12 @@
         <input type="text" value="${user.email}" disabled><br><br>
 
         <label>Họ tên:</label>
-        <input type="text" name="fullname" value="${user.fullname}" required><br><br>
+        <input type="text" name="fullname" id="fullname" value="${user.fullname}" required>
+        <span id="fullnameError" style="color:red; display:none;"></span><br><br>
 
         <label>Số điện thoại:</label>
-        <input type="text" name="phone" value="${user.phone}"><br><br>
+        <input type="text" name="phone" id="phone" value="${user.phone}">
+        <span id="phoneError" style="color:red; display:none;"></span><br><br>
 
         <label>Ảnh đại diện hiện tại:</label><br>
         <c:choose>

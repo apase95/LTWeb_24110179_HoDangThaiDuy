@@ -1,7 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<head><title>Sửa danh mục</title></head>
+<head>
+    <title>Sửa danh mục</title>
+<script>
+function validateCategoryForm() {
+    const name = document.getElementById('categoryname').value;
+    if (!validateRequired(name)) {
+        alert('Tên danh mục không được để trống');
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
 <body>
 <h2>Sửa danh mục</h2>
 <form action="<c:url value='/admin/category/update'/>" method="post" enctype="multipart/form-data">

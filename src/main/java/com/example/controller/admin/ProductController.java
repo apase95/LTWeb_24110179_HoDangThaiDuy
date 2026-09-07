@@ -85,6 +85,11 @@ public class ProductController extends HttpServlet {
             return;
         }
 
+        if (price <= 0 || quantity < 0) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Giá và số lượng phải là số dương");
+            return;
+        }
+
         Product product = new Product();
         product.setProductName(productName);
         product.setPrice(price);
