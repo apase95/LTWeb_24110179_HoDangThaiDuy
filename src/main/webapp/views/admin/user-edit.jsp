@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head><title>Sửa người dùng</title></head>
 <body>
+<%@ include file="/commons/admin/header.jsp" %>
 <h1>Sửa người dùng</h1>
 <form action="<c:url value='/admin/users/update'/>" method="post">
     <input type="hidden" name="id" value="${user.id}">
@@ -21,5 +22,7 @@
     <input type="radio" name="active" value="false" ${!user.active ? 'checked' : ''}> Không<br>
     <input type="submit" value="Cập nhật">
 </form>
+<p><a href="<c:url value='/admin/users'/>">Quay lại danh sách</a></p>
+<%@ include file="/commons/admin/footer.jsp" %>
 </body>
 </html>

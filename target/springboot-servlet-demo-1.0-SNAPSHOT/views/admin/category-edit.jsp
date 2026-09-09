@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
@@ -15,12 +15,13 @@ function validateCategoryForm() {
 </script>
 </head>
 <body>
+<%@ include file="/commons/admin/header.jsp" %>
 <h2>Sửa danh mục</h2>
 <form action="<c:url value='/admin/categories/update'/>" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="categoryid" value="${cate.categoryId}">
+    <input type="hidden" name="categoryId" value="${cate.categoryId}">
 
     <label>Tên danh mục:</label><br>
-    <input type="text" name="categoryname" value="${cate.categoryName}" required><br><br>
+    <input type="text" name="categoryName" value="${cate.categoryName}" required><br><br>
 
     <label>Link ảnh (nếu có):</label><br>
     <input type="text" name="images" value="${cate.images}"><br><br>
@@ -46,5 +47,6 @@ function validateCategoryForm() {
 
     <input type="submit" value="Cập nhật">
 </form>
+<%@ include file="/commons/admin/footer.jsp" %>
 </body>
 </html>

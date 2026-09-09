@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head><title>Thêm sản phẩm</title>
@@ -25,8 +25,9 @@ function validateProductForm() {
 </script>
 </head>
 <body>
+<%@ include file="/commons/admin/header.jsp" %>
 <h2>Thêm sản phẩm mới</h2>
-<form action="${pageContext.request.contextPath}/admin/product/insert" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
+<form action="${pageContext.request.contextPath}/admin/products/insert" method="post" enctype="multipart/form-data" onsubmit="return validateProductForm()">
     <label>Tên sản phẩm:</label><br>
     <input type="text" name="productName" id="productName" required><br><br>
 
@@ -56,5 +57,6 @@ function validateProductForm() {
 
     <input type="submit" value="Thêm">
 </form>
+<%@ include file="/commons/admin/footer.jsp" %>
 </body>
 </html>

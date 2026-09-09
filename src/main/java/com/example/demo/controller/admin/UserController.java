@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -27,6 +28,36 @@ public class UserController {
         }
         model.addAttribute("users", users);
         return "admin/user-list";
+    }
+
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        UserEntity user = new UserEntity();
+        user.setRoleid(3);
+        user.setActive(true);
+        model.addAttribute("user", user);
+        return "admin/user-add";
+    }
+
+    @PostMapping("/insert")
+    public String insert(@ModelAttribute UserEntity user, Model model) {
+        if (userService.findByUsername(user.getUsername()) != null) {
+            model.addAttribute("error", "Tên đăng nhập đã tồn tại");
+            return "admin/user-add";
+        }
+        if (userService.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Email đã được sử dụng");
+            return "admin/user-add";
+        }
+        if (user.getRoleid() == null) {
+            user.setRoleid(3);
+        }
+        if (user.getActive() == null) {
+            user.setActive(true);
+        }
+        user.setCreateddate(new Date());
+        userService.save(user);
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/edit/{id}")

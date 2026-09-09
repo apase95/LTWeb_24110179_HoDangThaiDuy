@@ -35,10 +35,14 @@ public class UserService {
     }
 
     public void save(UserEntity user) {
-        if (user.getPassword() != null && !user.getPassword().startsWith("$2a")) {
+        if (user.getPassword() != null && !isBcryptHash(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
+    }
+
+    private boolean isBcryptHash(String password) {
+        return password.matches("^\\$2[ayb]\\$\\d{2}\\$[./A-Za-z0-9]{53}$");
     }
 
     public void delete(Integer id) {

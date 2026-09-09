@@ -1,12 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" trimDirectiveWhitespaces="true" buffer="16kb" autoFlush="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Danh sách danh mục</title>
 </head>
 <body>
+<%@ include file="/commons/admin/header.jsp" %>
 <h2>Quản lý danh mục</h2>
 <a href="<c:url value='/admin/categories/add'/>">Thêm danh mục</a>
+<form action="<c:url value='/admin/categories'/>" method="get">
+    <input type="search" name="keyword" value="${keyword}" placeholder="Tìm theo tên danh mục">
+    <button type="submit">Tìm kiếm</button>
+    <c:if test="${not empty keyword}">
+        <a href="<c:url value='/admin/categories'/>">Xóa tìm kiếm</a>
+    </c:if>
+</form>
 <hr>
 <table border="1" width="100%">
     <tr>
@@ -41,5 +49,6 @@
         </tr>
     </c:forEach>
 </table>
+<%@ include file="/commons/admin/footer.jsp" %>
 </body>
 </html>

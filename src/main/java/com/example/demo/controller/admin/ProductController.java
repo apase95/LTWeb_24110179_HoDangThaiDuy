@@ -10,14 +10,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.WebDataBinder;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/products")
+@RequestMapping({"/admin/products", "/admin/product"})
 public class ProductController {
+
+    @InitBinder
+    void configureBinding(WebDataBinder binder) {
+        binder.setDisallowedFields("images");
+    }
 
     @Autowired
     private ProductService productService;

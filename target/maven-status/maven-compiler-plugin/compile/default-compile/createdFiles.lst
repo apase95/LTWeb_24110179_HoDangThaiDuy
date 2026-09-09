@@ -2,6 +2,7 @@ com/example/demo/util/Constant.class
 com/example/demo/service/CategoryService.class
 com/example/demo/repository/CategoryRepository.class
 com/example/demo/controller/ProductDetailController.class
+com/example/demo/controller/DownloadImageController.class
 com/example/demo/config/PasswordConfig.class
 com/example/demo/controller/WaitingController.class
 com/example/demo/entity/Product.class
