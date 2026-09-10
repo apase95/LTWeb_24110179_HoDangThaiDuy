@@ -1,0 +1,81 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Sua san pham</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel"
+        th:action="@{/admin/products/update}"
+        th:object="${product}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <h1>Sua san pham</h1>
+        <input type="hidden" th:field="*{productId}" /><label class="field"
+          >Ten san pham<input th:field="*{productName}" required /></label
+        ><label class="field"
+          >Gia<input
+            type="number"
+            step="0.01"
+            th:field="*{price}"
+            required /></label
+        ><label class="field"
+          >So luong<input
+            type="number"
+            th:field="*{quantity}"
+            required /></label
+        ><label class="field"
+          >Mo ta<textarea th:field="*{description}" rows="4"></textarea>
+        </label>
+        <div class="field">
+          <span>Anh hien tai</span
+          ><img
+            class="preview"
+            th:if="${product.images != null and #strings.startsWith(product.images, 'http')}"
+            th:src="${product.images}"
+            alt="Anh"
+          /><img
+            class="preview"
+            th:unless="${product.images != null and #strings.startsWith(product.images, 'http')}"
+            th:src="@{/image(fname=${product.images})}"
+            alt="Anh"
+          />
+        </div>
+        <label class="field"
+          >Chon anh moi<input
+            type="file"
+            name="images"
+            accept="image/*" /></label
+        ><label class="field"
+          >Danh muc<select name="categoryId" required>
+            <option
+              th:each="c : ${categories}"
+              th:value="${c.categoryId}"
+              th:text="${c.categoryName}"
+              th:selected="${c.categoryId == product.category.categoryId}"
+            >
+              Danh muc
+            </option>
+          </select></label
+        >
+        <div class="field">
+          <span>Trang thai</span
+          ><label
+            ><input type="radio" th:field="*{status}" value="1" /> Hoat
+            dong</label
+          ><label
+            ><input type="radio" th:field="*{status}" value="0" /> Khoa</label
+          >
+        </div>
+        <button type="submit">Cap nhat</button>
+      </form>
+    </main>
+  </body>
+</html>

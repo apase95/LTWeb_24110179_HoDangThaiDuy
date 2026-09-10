@@ -1,0 +1,50 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Dang ky</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel auth-panel"
+        th:action="@{/register}"
+        method="post"
+      >
+        <h1>Tao tai khoan</h1>
+        <p th:if="${alert}" th:text="${alert}" style="color: #a34b39"></p>
+        <label class="field"
+          >Ho ten<input
+            name="fullname"
+            th:value="${param.fullname}"
+            required /></label
+        ><label class="field"
+          >Username<input
+            name="username"
+            th:value="${param.username}"
+            required
+            minlength="3" /></label
+        ><label class="field"
+          >Email<input
+            type="email"
+            name="email"
+            th:value="${param.email}"
+            required /></label
+        ><label class="field"
+          >Mat khau<input
+            type="password"
+            name="password"
+            required
+            minlength="6" /></label
+        ><label class="field"
+          >So dien thoai<input name="phone" th:value="${param.phone}" /></label
+        ><button type="submit">Tao tai khoan</button>
+        <p>Da co tai khoan? <a th:href="@{/login}">Dang nhap</a></p>
+      </form>
+    </main>
+  </body>
+</html>

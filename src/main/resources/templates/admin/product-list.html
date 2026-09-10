@@ -1,0 +1,67 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Quan ly san pham</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <h1>Quan ly san pham</h1>
+        <a class="button" th:href="@{/admin/products/add}">Them san pham</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Hinh anh</th>
+            <th>Ten</th>
+            <th>Gia</th>
+            <th>So luong</th>
+            <th>Danh muc</th>
+            <th>Trang thai</th>
+            <th>Thao tac</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p, row : ${listproduct}">
+            <td th:text="${row.index + 1}">1</td>
+            <td>
+              <img
+                class="category-image"
+                th:if="${p.images != null and #strings.startsWith(p.images, 'http')}"
+                th:src="${p.images}"
+                alt="Anh"
+              /><img
+                class="category-image"
+                th:unless="${p.images != null and #strings.startsWith(p.images, 'http')}"
+                th:src="@{/image(fname=${p.images})}"
+                alt="Anh"
+              />
+            </td>
+            <td th:text="${p.productName}">San pham</td>
+            <td th:text="${p.price}">0</td>
+            <td th:text="${p.quantity}">0</td>
+            <td th:text="${p.category.categoryName}">-</td>
+            <td th:text="${p.status == 1 ? 'Hoat dong' : 'Khoa'}">Hoat dong</td>
+            <td class="actions">
+              <a th:href="@{/admin/products/edit/{id}(id=${p.productId})}"
+                >Sua</a
+              >
+              |
+              <a
+                th:href="@{/admin/products/delete/{id}(id=${p.productId})}"
+                onclick="return confirm('Xoa san pham?');"
+                >Xoa</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

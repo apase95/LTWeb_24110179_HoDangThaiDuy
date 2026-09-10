@@ -1,0 +1,50 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Them danh muc</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <h1>Them danh muc</h1>
+        <a th:href="@{/admin/categories}" class="button secondary">Quay lai</a>
+      </div>
+      <form
+        class="form-panel"
+        th:action="@{/admin/categories/insert}"
+        th:object="${category}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label class="field"
+          >Ten danh muc<input th:field="*{categoryName}" required
+        /></label>
+        <label class="field"
+          >Link anh (neu co)<input
+            th:field="*{images}"
+            placeholder="https://..."
+        /></label>
+        <label class="field"
+          >Upload anh<input type="file" name="images1" accept="image/*"
+        /></label>
+        <div class="field">
+          <span>Trang thai</span>
+          <div class="radio-row">
+            <label
+              ><input type="radio" th:field="*{status}" value="1" checked />
+              Hoat dong</label
+            ><label
+              ><input type="radio" th:field="*{status}" value="0" /> Khoa</label
+            >
+          </div>
+        </div>
+        <button type="submit">Luu danh muc</button>
+      </form>
+    </main>
+  </body>
+</html>

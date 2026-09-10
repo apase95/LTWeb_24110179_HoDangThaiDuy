@@ -1,0 +1,79 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Quan ly nguoi dung</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <h1>Quan ly nguoi dung</h1>
+        <a class="button" th:href="@{/admin/users/add}">Them nguoi dung</a>
+      </div>
+      <form class="toolbar" th:action="@{/admin/users}" method="get">
+        <input
+          name="keyword"
+          th:value="${keyword}"
+          placeholder="Tim kiem"
+        /><button type="submit">Tim</button
+        ><a
+          th:if="${keyword}"
+          class="button secondary"
+          th:href="@{/admin/users}"
+          >Xoa loc</a
+        >
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Ho ten</th>
+            <th>SDT</th>
+            <th>Vai tro</th>
+            <th>Trang thai</th>
+            <th>Thao tac</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="u : ${users}">
+            <td th:text="${u.id}">1</td>
+            <td th:text="${u.username}">user</td>
+            <td th:text="${u.email}">email</td>
+            <td th:text="${u.fullname}">Name</td>
+            <td th:text="${u.phone}">-</td>
+            <td
+              th:text="${u.roleid == 1 ? 'Admin' : (u.roleid == 2 ? 'Manager' : 'User')}"
+            >
+              User
+            </td>
+            <td th:text="${u.active ? 'Da kich hoat' : 'Chua kich hoat'}">-</td>
+            <td class="actions">
+              <a th:href="@{/admin/users/edit/{id}(id=${u.id})}">Sua</a> |
+              <a
+                th:href="@{/admin/users/delete/{id}(id=${u.id})}"
+                onclick="return confirm('Xoa nguoi dung?');"
+                >Xoa</a
+              >
+              |
+              <a
+                th:if="${u.active}"
+                th:href="@{/admin/users/disable/{id}(id=${u.id})}"
+                >Vo hieu</a
+              ><a
+                th:unless="${u.active}"
+                th:href="@{/admin/users/enable/{id}(id=${u.id})}"
+                >Kich hoat</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

@@ -4,13 +4,13 @@ import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryService;
 import com.example.demo.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin/categories")
@@ -20,15 +20,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
-        List<Category> categories;
-        if (keyword != null && !keyword.isEmpty()) {
-            categories = categoryService.search(keyword);
-            model.addAttribute("keyword", keyword);
-        } else {
-            categories = categoryService.findAll();
-        }
-        model.addAttribute("listcate", categories);
+    public String list(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                       @RequestParam(value = "page", defaultValue = "0") int page,
+                       Model model) {
+        Page<Category> categoryPage = categoryService.findPaged(keyword, Math.max(page, 0), 5);
+        model.addAttribute("categoryPage", categoryPage);
+        model.addAttribute("keyword", keyword == null ? "" : keyword.trim());
         return "admin/category-list";
     }
 

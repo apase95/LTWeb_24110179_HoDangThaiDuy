@@ -1,0 +1,40 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Trang chu</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <h1>Chao mung den voi MyShop</h1>
+        <a class="button secondary" th:href="@{/product}">Xem tat ca</a>
+      </div>
+      <h2>San pham moi nhat</h2>
+      <div class="card-grid">
+        <article class="card" th:each="p : ${newProducts}">
+          <img
+            th:if="${p.images != null and #strings.startsWith(p.images, 'http')}"
+            th:src="${p.images}"
+            th:alt="${p.productName}"
+          /><img
+            th:unless="${p.images != null and #strings.startsWith(p.images, 'http')}"
+            th:src="@{/image(fname=${p.images})}"
+            th:alt="${p.productName}"
+          />
+          <div class="card-body">
+            <h3 th:text="${p.productName}">San pham</h3>
+            <p th:text="${p.price + ' VND'}">0 VND</p>
+            <a class="button" th:href="@{/product/detail(id=${p.productId})}"
+              >Xem chi tiet</a
+            >
+          </div>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

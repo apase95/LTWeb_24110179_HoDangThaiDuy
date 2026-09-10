@@ -15,6 +15,7 @@ public class CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
     public Category findById(Integer id) {
         return categoryRepository.findById(id).orElse(null);
     }
@@ -24,10 +25,11 @@ public class CategoryService {
     public void delete(Integer id) {
         categoryRepository.deleteById(id);
     }
-    public List<Category> search(String keyword) {
-        return categoryRepository.findByCategoryNameContaining(keyword);
-    }
-    public Page<Category> findAllPaged(int page, int size) {
-        return categoryRepository.findAll(PageRequest.of(page, size));
+    public Page<Category> findPaged(String keyword, int page, int size) {
+        PageRequest request = PageRequest.of(page, size);
+        if (keyword == null || keyword.isBlank()) {
+            return categoryRepository.findAll(request);
+        }
+        return categoryRepository.findByCategoryNameContainingIgnoreCase(keyword.trim(), request);
     }
 }

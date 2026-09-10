@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Anh mau sinh vien">
+  <rect width="96" height="96" rx="24" fill="#dce7f5"/>
+  <circle cx="48" cy="38" r="17" fill="#f3c7a5"/>
+  <path d="M30 38c1-17 10-25 20-25 11 0 19 9 18 25-5-8-12-12-21-12-6 0-12 4-17 12z" fill="#1f2937"/>
+  <path d="M22 91c2-20 12-30 26-30s24 10 26 30" fill="#376b9e"/>
+  <path d="M38 55c4 5 16 5 20 0" fill="none" stroke="#b66d5c" stroke-width="2"/>
+</svg>

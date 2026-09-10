@@ -1,0 +1,68 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Sua danh muc</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <h1>Sua danh muc</h1>
+        <a th:href="@{/admin/categories}" class="button secondary">Quay lai</a>
+      </div>
+      <form
+        class="form-panel"
+        th:action="@{/admin/categories/update}"
+        th:object="${cate}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="hidden" th:field="*{categoryId}" />
+        <label class="field"
+          >Ten danh muc<input th:field="*{categoryName}" required
+        /></label>
+        <label class="field"
+          >Link anh (neu co)<input th:field="*{images}"
+        /></label>
+        <div class="field">
+          <span>Anh hien tai</span
+          ><img
+            class="preview"
+            th:if="${cate.images == null or cate.images.isEmpty()}"
+            th:src="@{/images/profile-sample.svg}"
+            alt="Anh mau"
+          /><img
+            class="preview"
+            th:if="${cate.images != null and #strings.startsWith(cate.images, 'http')}"
+            th:src="${cate.images}"
+            alt="Anh hien tai"
+          /><img
+            class="preview"
+            th:if="${cate.images != null and !#strings.startsWith(cate.images, 'http')}"
+            th:src="@{/image(fname=${cate.images})}"
+            alt="Anh hien tai"
+          />
+        </div>
+        <label class="field"
+          >Upload anh moi<input type="file" name="images1" accept="image/*"
+        /></label>
+        <div class="field">
+          <span>Trang thai</span>
+          <div class="radio-row">
+            <label
+              ><input type="radio" th:field="*{status}" value="1" /> Hoat
+              dong</label
+            ><label
+              ><input type="radio" th:field="*{status}" value="0" /> Khoa</label
+            >
+          </div>
+        </div>
+        <button type="submit">Cap nhat</button>
+      </form>
+    </main>
+  </body>
+</html>

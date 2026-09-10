@@ -1,0 +1,25 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Xac nhan OTP</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel auth-panel"
+        th:action="@{/verify-otp}"
+        method="post"
+      >
+        <h1>Xac nhan OTP</h1>
+        <p th:if="${error}" th:text="${error}" style="color: #a34b39"></p>
+        <label class="field">Ma OTP<input name="otp" required /></label
+        ><button type="submit">Xac nhan</button>
+      </form>
+    </main>
+  </body>
+</html>

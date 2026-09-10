@@ -1,0 +1,51 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>San pham</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <h1>Tat ca san pham</h1>
+      <div class="card-grid">
+        <article class="card" th:each="p : ${products}">
+          <img
+            th:if="${p.images != null and #strings.startsWith(p.images, 'http')}"
+            th:src="${p.images}"
+            th:alt="${p.productName}"
+          /><img
+            th:unless="${p.images != null and #strings.startsWith(p.images, 'http')}"
+            th:src="@{/image(fname=${p.images})}"
+            th:alt="${p.productName}"
+          />
+          <div class="card-body">
+            <h3 th:text="${p.productName}">San pham</h3>
+            <p th:text="${p.price + ' VND'}">0 VND</p>
+            <a class="button" th:href="@{/product/detail(id=${p.productId})}"
+              >Xem chi tiet</a
+            >
+          </div>
+        </article>
+      </div>
+      <div class="page-heading">
+        <a
+          th:if="${currentPage > 1}"
+          class="button secondary"
+          th:href="@{/product(page=${currentPage - 1})}"
+          >Truoc</a
+        ><span th:text="${'Trang ' + currentPage + ' / ' + totalPages}"
+          >Trang</span
+        ><a
+          th:if="${currentPage < totalPages}"
+          class="button secondary"
+          th:href="@{/product(page=${currentPage + 1})}"
+          >Sau</a
+        >
+      </div>
+    </main>
+  </body>
+</html>

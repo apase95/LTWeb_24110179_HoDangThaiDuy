@@ -1,0 +1,56 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Ho so</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel"
+        th:action="@{/profile}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <h1>Thong tin ca nhan</h1>
+        <p th:if="${message}" th:text="${message}"></p>
+        <label class="field"
+          >Username<input th:value="${user.username}" disabled /></label
+        ><label class="field"
+          >Email<input th:value="${user.email}" disabled /></label
+        ><label class="field"
+          >Ho ten<input
+            name="fullname"
+            th:value="${user.fullname}"
+            required /></label
+        ><label class="field"
+          >So dien thoai<input name="phone" th:value="${user.phone}"
+        /></label>
+        <div class="field">
+          <span>Anh dai dien</span
+          ><img
+            class="preview"
+            th:if="${user.avatar != null and #strings.startsWith(user.avatar, 'http')}"
+            th:src="${user.avatar}"
+            alt="Avatar"
+          /><img
+            class="preview"
+            th:unless="${user.avatar != null and #strings.startsWith(user.avatar, 'http')}"
+            th:src="@{/image(fname=${user.avatar == null ? 'default.png' : user.avatar})}"
+            alt="Avatar"
+          />
+        </div>
+        <label class="field"
+          >Chon anh moi<input
+            type="file"
+            name="avatar"
+            accept="image/*" /></label
+        ><button type="submit">Cap nhat</button>
+      </form>
+    </main>
+  </body>
+</html>

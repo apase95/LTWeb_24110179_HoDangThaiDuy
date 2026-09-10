@@ -1,0 +1,50 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Dang nhap</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel auth-panel"
+        th:action="@{/login}"
+        method="post"
+        onsubmit="return validateLoginForm();"
+      >
+        <h1>Dang nhap</h1>
+        <p th:if="${alert}" th:text="${alert}" style="color: #a34b39"></p>
+        <label class="field"
+          >Username<input
+            type="text"
+            name="username"
+            id="username"
+            th:value="${param.username}"
+            required /><span id="usernameError"></span></label
+        ><label class="field"
+          >Password<input
+            type="password"
+            name="password"
+            id="password"
+            required /><span id="passwordError"></span></label
+        ><label><input type="checkbox" name="remember" /> Nho toi</label
+        ><br /><br /><button type="submit">Dang nhap</button>
+        <p>Chua co tai khoan? <a th:href="@{/register}">Dang ky</a></p>
+        <a th:href="@{/forgot-password}">Quen mat khau?</a>
+      </form>
+      <script th:src="@{/js/validation.js}"></script>
+      <script>
+        function validateLoginForm() {
+          return (
+            validateRequired(document.getElementById("username").value) &&
+            validateRequired(document.getElementById("password").value)
+          );
+        }
+      </script>
+    </main>
+  </body>
+</html>

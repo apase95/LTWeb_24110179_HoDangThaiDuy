@@ -1,0 +1,45 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Sua nguoi dung</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel"
+        th:action="@{/admin/users/update}"
+        th:object="${user}"
+        method="post"
+      >
+        <h1>Sua nguoi dung</h1>
+        <input type="hidden" th:field="*{id}" />
+        <p>Username: <strong th:text="${user.username}">user</strong></p>
+        <p>Email: <strong th:text="${user.email}">email</strong></p>
+        <label class="field">Ho ten<input th:field="*{fullname}" /></label
+        ><label class="field">SDT<input th:field="*{phone}" /></label
+        ><label class="field"
+          >Vai tro<select th:field="*{roleid}">
+            <option value="1">Admin</option>
+            <option value="2">Manager</option>
+            <option value="3">User</option>
+          </select></label
+        >
+        <div class="field">
+          <span>Kich hoat</span
+          ><label
+            ><input type="radio" th:field="*{active}" value="true" /> Co</label
+          ><label
+            ><input type="radio" th:field="*{active}" value="false" />
+            Khong</label
+          >
+        </div>
+        <button type="submit">Cap nhat</button>
+      </form>
+    </main>
+  </body>
+</html>

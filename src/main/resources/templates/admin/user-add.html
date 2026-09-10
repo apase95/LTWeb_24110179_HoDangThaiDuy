@@ -1,0 +1,55 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Them nguoi dung</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <form
+        class="form-panel"
+        th:action="@{/admin/users/insert}"
+        th:object="${user}"
+        method="post"
+      >
+        <h1>Them nguoi dung</h1>
+        <p th:if="${error}" th:text="${error}" style="color: #a34b39"></p>
+        <label class="field"
+          >Username<input th:field="*{username}" required /></label
+        ><label class="field"
+          >Email<input type="email" th:field="*{email}" required /></label
+        ><label class="field"
+          >Mat khau<input
+            type="password"
+            name="password"
+            required
+            minlength="6" /></label
+        ><label class="field"
+          >Ho ten<input th:field="*{fullname}" required /></label
+        ><label class="field">So dien thoai<input th:field="*{phone}" /></label
+        ><label class="field"
+          >Vai tro<select th:field="*{roleid}">
+            <option value="1">Admin</option>
+            <option value="2">Manager</option>
+            <option value="3">User</option>
+          </select></label
+        >
+        <div class="field">
+          <span>Trang thai</span
+          ><label
+            ><input type="radio" th:field="*{active}" value="true" /> Kich
+            hoat</label
+          ><label
+            ><input type="radio" th:field="*{active}" value="false" /> Vo
+            hieu</label
+          >
+        </div>
+        <button type="submit">Tao nguoi dung</button>
+      </form>
+    </main>
+  </body>
+</html>

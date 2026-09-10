@@ -1,0 +1,130 @@
+<!doctype html>
+<html
+  lang="vi"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}"
+>
+  <head>
+    <title>Danh sach danh muc</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="page-heading">
+        <div>
+          <h1>Quan ly danh muc</h1>
+          <div class="muted">CRUD va tim kiem phan trang</div>
+        </div>
+        <a class="button" th:href="@{/admin/categories/add}">+ Them danh muc</a>
+      </div>
+      <form class="toolbar" th:action="@{/admin/categories}" method="get">
+        <input
+          type="search"
+          name="keyword"
+          th:value="${keyword}"
+          placeholder="Tim theo ten danh muc"
+        />
+        <button type="submit">Tim kiem</button>
+        <a
+          th:if="${keyword != null and !keyword.isEmpty()}"
+          th:href="@{/admin/categories}"
+          class="button secondary"
+          >Xoa loc</a
+        >
+      </form>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Hinh anh</th>
+              <th>Ten danh muc</th>
+              <th>Trang thai</th>
+              <th>Thao tac</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="cate, row : ${categoryPage.content}">
+              <td
+                th:text="${categoryPage.number * categoryPage.size + row.index + 1}"
+              >
+                1
+              </td>
+              <td>
+                <img
+                  class="category-image"
+                  th:if="${cate.images == null or cate.images.isEmpty()}"
+                  th:src="@{/images/profile-sample.svg}"
+                  alt="Anh mau"
+                /><img
+                  class="category-image"
+                  th:if="${cate.images != null and #strings.startsWith(cate.images, 'http')}"
+                  th:src="${cate.images}"
+                  alt="Anh danh muc"
+                /><img
+                  class="category-image"
+                  th:if="${cate.images != null and !#strings.startsWith(cate.images, 'http')}"
+                  th:src="@{/image(fname=${cate.images})}"
+                  alt="Anh danh muc"
+                />
+              </td>
+              <td th:text="${cate.categoryName}">Danh muc</td>
+              <td>
+                <span
+                  class="status"
+                  th:classappend="${cate.status != 1} ? ' locked' : ''"
+                  th:text="${cate.status == 1 ? 'Hoat dong' : 'Khoa'}"
+                  >Hoat dong</span
+                >
+              </td>
+              <td class="actions">
+                <a
+                  th:href="@{/admin/categories/edit/{id}(id=${cate.categoryId})}"
+                  >Sua</a
+                >
+                |
+                <a
+                  th:href="@{/admin/categories/delete/{id}(id=${cate.categoryId})}"
+                  onclick="return confirm('Ban co chac muon xoa?');"
+                  >Xoa</a
+                >
+              </td>
+            </tr>
+            <tr th:if="${categoryPage.empty}">
+              <td colspan="5" class="muted">Khong tim thay danh muc.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="pagination" th:if="${categoryPage.totalPages > 1}">
+        <li th:if="${categoryPage.hasPrevious()}">
+          <a
+            th:href="@{/admin/categories(page=${categoryPage.number - 1}, keyword=${keyword})}"
+            >Truoc</a
+          >
+        </li>
+        <li
+          th:each="pageNumber : ${#numbers.sequence(0, categoryPage.totalPages - 1)}"
+        >
+          <a
+            th:if="${pageNumber != categoryPage.number}"
+            th:href="@{/admin/categories(page=${pageNumber}, keyword=${keyword})}"
+            th:text="${pageNumber + 1}"
+            >1</a
+          ><span
+            class="current"
+            th:if="${pageNumber == categoryPage.number}"
+            th:text="${pageNumber + 1}"
+            >1</span
+          >
+        </li>
+        <li th:if="${categoryPage.hasNext()}">
+          <a
+            th:href="@{/admin/categories(page=${categoryPage.number + 1}, keyword=${keyword})}"
+            >Sau</a
+          >
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>
