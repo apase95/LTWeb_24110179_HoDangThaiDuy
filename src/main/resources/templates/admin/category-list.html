@@ -1,130 +1,37 @@
 <!doctype html>
-<html
-  lang="vi"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout}"
->
-  <head>
-    <title>Danh sach danh muc</title>
-  </head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head><title>Danh sach danh muc</title></head>
   <body>
     <main layout:fragment="content">
-      <div class="page-heading">
-        <div>
-          <h1>Quan ly danh muc</h1>
-          <div class="muted">CRUD va tim kiem phan trang</div>
-        </div>
-        <a class="button" th:href="@{/admin/categories/add}">+ Them danh muc</a>
-      </div>
-      <form class="toolbar" th:action="@{/admin/categories}" method="get">
-        <input
-          type="search"
-          name="keyword"
-          th:value="${keyword}"
-          placeholder="Tim theo ten danh muc"
-        />
-        <button type="submit">Tim kiem</button>
-        <a
-          th:if="${keyword != null and !keyword.isEmpty()}"
-          th:href="@{/admin/categories}"
-          class="button secondary"
-          >Xoa loc</a
-        >
+      <div class="page-heading"><h1>Quan ly danh muc</h1><button id="newCategory">+ Them danh muc</button></div>
+      <form class="toolbar" id="searchCategory"><input type="search" id="keyword" placeholder="Tim theo ten danh muc" /><button>Tim kiem</button></form>
+      <form class="toolbar" id="categoryForm" style="display:none">
+        <input type="hidden" id="categoryId" />
+        <input id="categoryName" placeholder="Ten danh muc" required />
+        <input id="images" placeholder="Link/ten file anh" />
+        <select id="status"><option value="1">Hoat dong</option><option value="0">Khoa</option></select>
+        <button>Luu</button><button type="button" class="button secondary" id="cancelCategory">Huy</button>
       </form>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Hinh anh</th>
-              <th>Ten danh muc</th>
-              <th>Trang thai</th>
-              <th>Thao tac</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="cate, row : ${categoryPage.content}">
-              <td
-                th:text="${categoryPage.number * categoryPage.size + row.index + 1}"
-              >
-                1
-              </td>
-              <td>
-                <img
-                  class="category-image"
-                  th:if="${cate.images == null or cate.images.isEmpty()}"
-                  th:src="@{/images/profile-sample.svg}"
-                  alt="Anh mau"
-                /><img
-                  class="category-image"
-                  th:if="${cate.images != null and #strings.startsWith(cate.images, 'http')}"
-                  th:src="${cate.images}"
-                  alt="Anh danh muc"
-                /><img
-                  class="category-image"
-                  th:if="${cate.images != null and !#strings.startsWith(cate.images, 'http')}"
-                  th:src="@{/image(fname=${cate.images})}"
-                  alt="Anh danh muc"
-                />
-              </td>
-              <td th:text="${cate.categoryName}">Danh muc</td>
-              <td>
-                <span
-                  class="status"
-                  th:classappend="${cate.status != 1} ? ' locked' : ''"
-                  th:text="${cate.status == 1 ? 'Hoat dong' : 'Khoa'}"
-                  >Hoat dong</span
-                >
-              </td>
-              <td class="actions">
-                <a
-                  th:href="@{/admin/categories/edit/{id}(id=${cate.categoryId})}"
-                  >Sua</a
-                >
-                |
-                <a
-                  th:href="@{/admin/categories/delete/{id}(id=${cate.categoryId})}"
-                  onclick="return confirm('Ban co chac muon xoa?');"
-                  >Xoa</a
-                >
-              </td>
-            </tr>
-            <tr th:if="${categoryPage.empty}">
-              <td colspan="5" class="muted">Khong tim thay danh muc.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="pagination" th:if="${categoryPage.totalPages > 1}">
-        <li th:if="${categoryPage.hasPrevious()}">
-          <a
-            th:href="@{/admin/categories(page=${categoryPage.number - 1}, keyword=${keyword})}"
-            >Truoc</a
-          >
-        </li>
-        <li
-          th:each="pageNumber : ${#numbers.sequence(0, categoryPage.totalPages - 1)}"
-        >
-          <a
-            th:if="${pageNumber != categoryPage.number}"
-            th:href="@{/admin/categories(page=${pageNumber}, keyword=${keyword})}"
-            th:text="${pageNumber + 1}"
-            >1</a
-          ><span
-            class="current"
-            th:if="${pageNumber == categoryPage.number}"
-            th:text="${pageNumber + 1}"
-            >1</span
-          >
-        </li>
-        <li th:if="${categoryPage.hasNext()}">
-          <a
-            th:href="@{/admin/categories(page=${categoryPage.number + 1}, keyword=${keyword})}"
-            >Sau</a
-          >
-        </li>
-      </ul>
+      <div class="table-wrap"><table><thead><tr><th>STT</th><th>Hinh anh</th><th>Ten danh muc</th><th>Trang thai</th><th>Thao tac</th></tr></thead><tbody id="categoryRows"></tbody></table></div>
+      <ul class="pagination" id="categoryPages"></ul>
+      <script>
+        let categoryPage = 0;
+        const imgSrc = v => !v ? contextPath + '/images/profile-sample.svg' : (v.startsWith('http') ? v : contextPath + '/image?fname=' + encodeURIComponent(v));
+        function loadCategories(page = 0) {
+          categoryPage = page;
+          $.getJSON(contextPath + '/api/categories', {keyword: $('#keyword').val(), page, size: 5}, data => {
+            $('#categoryRows').html(data.content.map((c, i) => `<tr><td>${data.number * data.size + i + 1}</td><td><img class="category-image" src="${imgSrc(c.images)}" alt="Anh"></td><td>${c.categoryName || ''}</td><td><span class="status ${c.status == 1 ? '' : 'locked'}">${c.status == 1 ? 'Hoat dong' : 'Khoa'}</span></td><td class="actions"><a href="#" class="edit" data-id="${c.categoryId}">Sua</a> | <a href="#" class="delete" data-id="${c.categoryId}">Xoa</a></td></tr>`).join('') || '<tr><td colspan="5" class="muted">Khong tim thay danh muc.</td></tr>');
+            $('#categoryPages').html(Array.from({length: data.totalPages}, (_, i) => `<li>${i == data.number ? `<span class="current">${i + 1}</span>` : `<a href="#" data-page="${i}">${i + 1}</a>`}</li>`).join(''));
+          });
+        }
+        $('#searchCategory').on('submit', e => { e.preventDefault(); loadCategories(); });
+        $('#newCategory,#cancelCategory').on('click', () => { $('#categoryForm')[0].reset(); $('#categoryId').val(''); $('#categoryForm').toggle(); });
+        $('#categoryPages').on('click', 'a', function(e) { e.preventDefault(); loadCategories($(this).data('page')); });
+        $('#categoryRows').on('click', '.edit', function(e) { e.preventDefault(); $.getJSON(contextPath + '/api/categories/' + $(this).data('id'), c => { $('#categoryId').val(c.categoryId); $('#categoryName').val(c.categoryName); $('#images').val(c.images); $('#status').val(c.status); $('#categoryForm').show(); }); });
+        $('#categoryRows').on('click', '.delete', function(e) { e.preventDefault(); if (confirm('Ban co chac muon xoa?')) $.ajax({url: contextPath + '/api/categories/' + $(this).data('id'), type: 'DELETE', success: () => loadCategories(categoryPage)}); });
+        $('#categoryForm').on('submit', e => { e.preventDefault(); const id = $('#categoryId').val(); $.ajax({url: contextPath + '/api/categories' + (id ? '/' + id : ''), type: id ? 'PUT' : 'POST', contentType: 'application/json', data: JSON.stringify({categoryName: $('#categoryName').val(), images: $('#images').val(), status: Number($('#status').val())}), success: () => { $('#categoryForm').hide(); loadCategories(categoryPage); }}); });
+        loadCategories();
+      </script>
     </main>
   </body>
 </html>

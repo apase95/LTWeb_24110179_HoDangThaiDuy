@@ -1,67 +1,37 @@
 <!doctype html>
-<html
-  lang="vi"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout}"
->
-  <head>
-    <title>Quan ly san pham</title>
-  </head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head><title>Quan ly san pham</title></head>
   <body>
     <main layout:fragment="content">
-      <div class="page-heading">
-        <h1>Quan ly san pham</h1>
-        <a class="button" th:href="@{/admin/products/add}">Them san pham</a>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Hinh anh</th>
-            <th>Ten</th>
-            <th>Gia</th>
-            <th>So luong</th>
-            <th>Danh muc</th>
-            <th>Trang thai</th>
-            <th>Thao tac</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="p, row : ${listproduct}">
-            <td th:text="${row.index + 1}">1</td>
-            <td>
-              <img
-                class="category-image"
-                th:if="${p.images != null and #strings.startsWith(p.images, 'http')}"
-                th:src="${p.images}"
-                alt="Anh"
-              /><img
-                class="category-image"
-                th:unless="${p.images != null and #strings.startsWith(p.images, 'http')}"
-                th:src="@{/image(fname=${p.images})}"
-                alt="Anh"
-              />
-            </td>
-            <td th:text="${p.productName}">San pham</td>
-            <td th:text="${p.price}">0</td>
-            <td th:text="${p.quantity}">0</td>
-            <td th:text="${p.category.categoryName}">-</td>
-            <td th:text="${p.status == 1 ? 'Hoat dong' : 'Khoa'}">Hoat dong</td>
-            <td class="actions">
-              <a th:href="@{/admin/products/edit/{id}(id=${p.productId})}"
-                >Sua</a
-              >
-              |
-              <a
-                th:href="@{/admin/products/delete/{id}(id=${p.productId})}"
-                onclick="return confirm('Xoa san pham?');"
-                >Xoa</a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="page-heading"><h1>Quan ly san pham</h1><button id="newProduct">Them san pham</button></div>
+      <form class="toolbar" id="searchProduct"><input type="search" id="keyword" placeholder="Tim theo ten san pham" /><button>Tim kiem</button></form>
+      <form class="toolbar" id="productForm" style="display:none;flex-wrap:wrap">
+        <input type="hidden" id="productId" /><input id="productName" placeholder="Ten san pham" required />
+        <input id="price" type="number" step="0.01" placeholder="Gia" required /><input id="quantity" type="number" placeholder="So luong" required />
+        <input id="images" placeholder="Link/ten file anh" /><select id="categoryId" required></select><select id="status"><option value="1">Hoat dong</option><option value="0">Khoa</option></select>
+        <textarea id="description" placeholder="Mo ta"></textarea><button>Luu</button><button type="button" class="button secondary" id="cancelProduct">Huy</button>
+      </form>
+      <div class="table-wrap"><table><thead><tr><th>ID</th><th>Hinh anh</th><th>Ten</th><th>Gia</th><th>So luong</th><th>Danh muc</th><th>Trang thai</th><th>Thao tac</th></tr></thead><tbody id="productRows"></tbody></table></div>
+      <ul class="pagination" id="productPages"></ul>
+      <script>
+        let productPage = 0;
+        const productImg = v => !v ? contextPath + '/images/profile-sample.svg' : (v.startsWith('http') ? v : contextPath + '/image?fname=' + encodeURIComponent(v));
+        function loadCategoryOptions() { $.getJSON(contextPath + '/api/categories', {size: 100}, data => $('#categoryId').html(data.content.map(c => `<option value="${c.categoryId}">${c.categoryName}</option>`).join(''))); }
+        function loadProducts(page = 0) {
+          productPage = page;
+          $.getJSON(contextPath + '/api/products', {keyword: $('#keyword').val(), page, size: 5}, data => {
+            $('#productRows').html(data.content.map((p, i) => `<tr><td>${data.number * data.size + i + 1}</td><td><img class="category-image" src="${productImg(p.images)}" alt="Anh"></td><td>${p.productName || ''}</td><td>${p.price ?? ''}</td><td>${p.quantity ?? ''}</td><td>${p.category?.categoryName || ''}</td><td><span class="status ${p.status == 1 ? '' : 'locked'}">${p.status == 1 ? 'Hoat dong' : 'Khoa'}</span></td><td class="actions"><a href="#" class="edit" data-id="${p.productId}">Sua</a> | <a href="#" class="delete" data-id="${p.productId}">Xoa</a></td></tr>`).join('') || '<tr><td colspan="8" class="muted">Khong tim thay san pham.</td></tr>');
+            $('#productPages').html(Array.from({length: data.totalPages}, (_, i) => `<li>${i == data.number ? `<span class="current">${i + 1}</span>` : `<a href="#" data-page="${i}">${i + 1}</a>`}</li>`).join(''));
+          });
+        }
+        $('#searchProduct').on('submit', e => { e.preventDefault(); loadProducts(); });
+        $('#newProduct,#cancelProduct').on('click', () => { $('#productForm')[0].reset(); $('#productId').val(''); $('#productForm').toggle(); });
+        $('#productPages').on('click', 'a', function(e) { e.preventDefault(); loadProducts($(this).data('page')); });
+        $('#productRows').on('click', '.edit', function(e) { e.preventDefault(); $.getJSON(contextPath + '/api/products/' + $(this).data('id'), p => { $('#productId').val(p.productId); $('#productName').val(p.productName); $('#price').val(p.price); $('#quantity').val(p.quantity); $('#images').val(p.images); $('#categoryId').val(p.category?.categoryId); $('#status').val(p.status); $('#description').val(p.description); $('#productForm').show(); }); });
+        $('#productRows').on('click', '.delete', function(e) { e.preventDefault(); if (confirm('Xoa san pham?')) $.ajax({url: contextPath + '/api/products/' + $(this).data('id'), type: 'DELETE', success: () => loadProducts(productPage)}); });
+        $('#productForm').on('submit', e => { e.preventDefault(); const id = $('#productId').val(); $.ajax({url: contextPath + '/api/products' + (id ? '/' + id : ''), type: id ? 'PUT' : 'POST', contentType: 'application/json', data: JSON.stringify({productName: $('#productName').val(), price: Number($('#price').val()), quantity: Number($('#quantity').val()), images: $('#images').val(), categoryId: Number($('#categoryId').val()), status: Number($('#status').val()), description: $('#description').val()}), success: () => { $('#productForm').hide(); loadProducts(productPage); }}); });
+        loadCategoryOptions(); loadProducts();
+      </script>
     </main>
   </body>
 </html>

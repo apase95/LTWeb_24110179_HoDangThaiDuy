@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,13 @@ public class ProductService {
 
     public List<Product> search(String keyword) {
         return productRepository.findByProductNameContaining(keyword);
+    }
+
+    public Page<Product> findPaged(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (keyword == null || keyword.isBlank()) {
+            return productRepository.findAll(pageable);
+        }
+        return productRepository.findByProductNameContainingIgnoreCase(keyword.trim(), pageable);
     }
 }
