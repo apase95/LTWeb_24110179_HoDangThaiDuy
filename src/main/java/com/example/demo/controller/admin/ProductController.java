@@ -4,6 +4,7 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
+import com.example.demo.service.CloudinaryService;
 import com.example.demo.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
@@ -63,7 +67,7 @@ public class ProductController {
         product.setCreatedDate(new Date());
 
         if (file != null && !file.isEmpty()) {
-            String fileName = FileUploadUtil.saveFile(file, "products");
+            String fileName = cloudinaryService.enabled() ? cloudinaryService.upload(file, "products") : FileUploadUtil.saveFile(file, "products");
             product.setImages(fileName);
         } else {
             product.setImages("default.png");
@@ -99,7 +103,7 @@ public class ProductController {
             if (oldFile != null && !oldFile.startsWith("http")) {
                 FileUploadUtil.deleteFile(oldFile, "products");
             }
-            String newFile = FileUploadUtil.saveFile(file, "products");
+            String newFile = cloudinaryService.enabled() ? cloudinaryService.upload(file, "products") : FileUploadUtil.saveFile(file, "products");
             product.setImages(newFile);
         } else {
             product.setImages(existing.getImages());

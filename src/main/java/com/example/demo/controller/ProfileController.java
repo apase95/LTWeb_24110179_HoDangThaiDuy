@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.service.UserService;
+import com.example.demo.service.CloudinaryService;
 import com.example.demo.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,9 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("/profile")
     public String profile(Authentication authentication, Model model) {
@@ -55,7 +59,7 @@ public class ProfileController {
         user.setPhone(phone);
 
         if (avatar != null && !avatar.isEmpty()) {
-            String fileName = FileUploadUtil.saveFile(avatar, "avatars");
+            String fileName = cloudinaryService.enabled() ? cloudinaryService.upload(avatar, "avatars") : FileUploadUtil.saveFile(avatar, "avatars");
             String oldAvatar = user.getAvatar();
             if (oldAvatar != null && !oldAvatar.startsWith("http")) {
                 FileUploadUtil.deleteFile(oldAvatar, "avatars");

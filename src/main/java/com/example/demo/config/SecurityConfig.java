@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,17 +21,12 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
-            com.example.demo.entity.UserEntity user = userRepository.findByUsername(username)
+            com.example.demo.entity.UserEntity user = userRepository.findByUsernameOrEmail(username, username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             String role = "ROLE_USER";
-            if (user.getRoleid() == 1) role = "ROLE_ADMIN";
+            if (Integer.valueOf(1).equals(user.getRoleid())) role = "ROLE_ADMIN";
             else if (user.getRoleid() == 2) role = "ROLE_MANAGER";
-            return org.springframework.security.core.userdetails.User
-                    .withUsername(user.getUsername())
-                    .password(user.getPassword())
-                    .authorities(role)
-                    .disabled(!user.getActive())
-                    .build();
+            return new UserPrincipal(user, role);
         };
     }
 
@@ -44,6 +40,8 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .successHandler(customAuthenticationSuccessHandler)
                 .permitAll()
             )

@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.service.UserService;
-import com.example.demo.util.EmailUtil;
+import com.example.demo.service.MailService;
 import com.example.demo.util.OTPUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,9 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailService mailService;
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
@@ -74,8 +77,7 @@ public class AuthController {
         userService.saveOTP(username, otp, expiry);
 
         try {
-            String content = "Mã xác thực OTP của bạn là: " + otp + "\nHiệu lực trong 5 phút.";
-            EmailUtil.sendEmail(email, "Xác thực tài khoản", content);
+            mailService.send(email, "Xác thực tài khoản", "Mã xác thực OTP của bạn là: " + otp + "\nHiệu lực trong 5 phút.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,8 +126,7 @@ public class AuthController {
         userService.saveOTP(user.getUsername(), otp, expiry);
 
         try {
-            String content = "Mã OTP để đặt lại mật khẩu của bạn là: " + otp + "\nHiệu lực trong 5 phút.";
-            EmailUtil.sendEmail(email, "Đặt lại mật khẩu", content);
+            mailService.send(email, "Đặt lại mật khẩu", "Mã OTP để đặt lại mật khẩu của bạn là: " + otp + "\nHiệu lực trong 5 phút.");
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Không thể gửi email, vui lòng thử lại sau.");
