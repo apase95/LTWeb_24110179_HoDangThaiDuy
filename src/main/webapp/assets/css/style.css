@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    color: #222;
+}
+
+.site-header,
+.site-footer {
+    background: #1f2937;
+    color: #fff;
+    padding: 16px 24px;
+}
+
+.admin-header {
+    background: #7c2d12;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.site-header a {
+    color: #fff;
+    margin-left: 16px;
+    text-decoration: none;
+}
+
+.container {
+    padding: 24px;
+    min-height: 70vh;
+}
+
+.auth-form {
+    display: grid;
+    gap: 10px;
+    max-width: 360px;
+}
+
+.auth-form input,
+.auth-form button {
+    padding: 10px;
+}
+
+.error {
+    color: #b91c1c;
+}
+
+.success {
+    color: #047857;
+}
+
+.author-section {
+    border: 1px solid #ddd;
+    margin-bottom: 24px;
+    padding: 16px;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+.book-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+.book-card p {
+    margin: 8px 0;
+}
+
+.pagination {
+    text-align: center;
+    margin: 24px 0;
+}
+
+.pagination a {
+    display: inline-block;
+    border: 1px solid #ddd;
+    color: #1f2937;
+    margin: 0 4px;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+.pagination .active {
+    background: #1f2937;
+    color: #fff;
+}
+
+.detail-box {
+    border: 1px solid #ddd;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 260px 1fr;
+    padding: 16px;
+}
+
+.detail-box img {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+}
+
+.review-form textarea {
+    display: block;
+    min-height: 100px;
+    width: min(600px, 100%);
+    margin-bottom: 12px;
+}
+
+.admin-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.admin-table th {
+    background: #f3f4f6;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.button,
+.inline-form button {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .site-header a {
+        display: inline-block;
+        margin: 8px 12px 0 0;
+    }
+
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+}
