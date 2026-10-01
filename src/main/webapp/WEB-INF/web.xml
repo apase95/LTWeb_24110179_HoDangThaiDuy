@@ -105,6 +105,15 @@
         <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderHistoryController_24110179</servlet-name>
+        <servlet-class>vn.edu.ktqt.presentation.OrderHistoryController_24110179</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderHistoryController_24110179</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>

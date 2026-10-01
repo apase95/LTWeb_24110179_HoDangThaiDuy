@@ -18,6 +18,7 @@
         <a href="${pageContext.request.contextPath}/home">Trang Chủ</a>
         <a href="${pageContext.request.contextPath}/home">Sản phẩm</a>
         <a href="${pageContext.request.contextPath}/cart">Giỏ hàng</a>
+        <a href="${pageContext.request.contextPath}/orders">Lịch sử đơn hàng</a>
         <c:choose>
             <c:when test="${empty sessionScope.currentUser}">
                 <a href="${pageContext.request.contextPath}/login">Đăng nhập</a>
